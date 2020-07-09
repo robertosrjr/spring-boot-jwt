@@ -8,14 +8,30 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public @Data class User implements UserDetails {
+public @Data class UserModel implements UserDetails {
 
     private String id;
     private String username;
     private String password;
-    private List<Profile> profiles = new ArrayList<>();
+    private List<ProfileModel> profiles = new ArrayList<>();
 
+    public UserModel(){}
 
+    public UserModel(String id, String username, String password) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.profiles = this.generateProfiles();
+    }
+
+    private List<ProfileModel> generateProfiles() {
+
+        List<ProfileModel> profiles = new ArrayList<>();
+        ProfileModel profile = new ProfileModel("1", "ADMIN");
+        profiles.add(profile);
+
+        return profiles;
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.profiles;
