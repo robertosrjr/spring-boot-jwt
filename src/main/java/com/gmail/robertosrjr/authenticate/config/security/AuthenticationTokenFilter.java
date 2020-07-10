@@ -1,6 +1,10 @@
 package com.gmail.robertosrjr.authenticate.config.security;
 
+import com.gmail.robertosrjr.authenticate.domain.model.UserModel;
 import com.gmail.robertosrjr.authenticate.domain.service.TokenService;
+import com.gmail.robertosrjr.authenticate.domain.service.UserService;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -12,6 +16,13 @@ import java.io.IOException;
 public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
     private TokenService tokenService;
+    private UserService userService;
+
+    public AuthenticationTokenFilter(TokenService tokenService, UserService userService) {
+
+        this.tokenService = tokenService;
+        this.userService = userService;
+    }
 
     @Override
     protected void doFilterInternal(
@@ -19,12 +30,19 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
         String token = this.retrieveToken(httpServletRequest);
         boolean isValid = this.tokenService.isValid(token);
+        if (isValid) {
+
+            this.authenticateClient(token);
+        }
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 
-    public AuthenticationTokenFilter(TokenService tokenService) {
+    private void authenticateClient(String token) {
 
-        this.tokenService = tokenService;
+        String idUser = tokenService.getIdUser(token);
+        UserModel user = this.userService.findById(idUser);
+        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null, user.getProfiles());
+        SecurityContextHolder.getContext().setAuthentication(auth);
     }
 
     private String retrieveToken(HttpServletRequest httpServletRequest) {

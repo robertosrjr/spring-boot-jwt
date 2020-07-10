@@ -1,6 +1,7 @@
 package com.gmail.robertosrjr.authenticate.domain.service;
 
 import com.gmail.robertosrjr.authenticate.domain.model.UserModel;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,7 +30,7 @@ public class TokenService {
                 .setSubject(usuario.getId())
                 .setIssuedAt(hoje.getTime())
                 .setExpiration(expiration.getTime())
-                .signWith(SignatureAlgorithm.HS256, sectret)
+                .signWith(SignatureAlgorithm.HS512, sectret)
                 .compact();
     }
 
@@ -42,5 +43,11 @@ public class TokenService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public String getIdUser(String token) {
+
+        Claims claims = Jwts.parser().setSigningKey(this.sectret).parseClaimsJws(token).getBody();
+        return claims.getSubject();
     }
 }
