@@ -1,0 +1,14 @@
+com\gmail\robertosrjr\authenticate\domain\repository\AuthenticationRepository.class
+com\gmail\robertosrjr\authenticate\AuthenticateApplication.class
+com\gmail\robertosrjr\authenticate\config\security\AuthenticationTokenFilter.class
+com\gmail\robertosrjr\authenticate\controller\AuthenticationController.class
+com\gmail\robertosrjr\authenticate\domain\model\ProfileModel.class
+com\gmail\robertosrjr\authenticate\domain\repository\UserRepository.class
+com\gmail\robertosrjr\authenticate\controller\CompanyController.class
+com\gmail\robertosrjr\authenticate\form\LoginForm.class
+com\gmail\robertosrjr\authenticate\config\security\WebSecurityConfig.class
+com\gmail\robertosrjr\authenticate\domain\service\AuthenticationService.class
+com\gmail\robertosrjr\authenticate\dto\TokenDto.class
+com\gmail\robertosrjr\authenticate\domain\model\UserModel.class
+com\gmail\robertosrjr\authenticate\domain\service\TokenService.class
+com\gmail\robertosrjr\authenticate\domain\service\UserService.class
