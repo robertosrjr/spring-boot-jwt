@@ -12,7 +12,6 @@ public class CompanyController {
 
     @GetMapping
     public ResponseEntity<?> findAll() {
-
         return ResponseEntity.ok().build();
     }
 }
